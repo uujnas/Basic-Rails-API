@@ -1,24 +1,19 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails Api using versioning routes and jbuilder
 
 Things you may want to cover:
 
-* Ruby version
+* created new rails app
 
-* System dependencies
+* install required gem jbuilder
 
-* Configuration
+* created model. for database I have used posgresql
+* 1.rails db:create db:migrate db:seed
 
-* Database creation
+* API Versioning
 
-* Database initialization
+* Views with jbuilder
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
 
 * ...
