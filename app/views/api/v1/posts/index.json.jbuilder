@@ -1,5 +1,1 @@
-json.array! @posts do |post|
-    json.id post.id
-    json.title post.title
-    json.description post.description
-end
+json.array! @posts, partial:"api/v1/posts/post", as: :post
