@@ -8,3 +8,11 @@
 5.times do |i|
     Post.create(title: "Post Number #{i}", description: "This is the body of post number #{i}")
    end
+
+   user1 = User.create(email: 'abc@gmail.com', password: 'password')
+   user2 = User.create(email: 'xyz@gmail.com', password: 'password')
+
+   hotel1 = ["sunshine","sunrise"]
+   hotel1.each do |hotel|
+    Hotel.create(name: hotel,user_id: user1.id)
+   end
