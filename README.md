@@ -20,17 +20,19 @@ b. Setup and install devise<br>
 c. Create user model <br>
         `rails g devise User` don't forget to migrate `rails db:migrate`<br>
 
-d. jwt gem for cryptographic signing.<br>
+d. **Install jwt gem for cryptographic signing.**<br>
         `gem 'jwt'` then `bundle`<br>
     *after adding gem in the Gemfile don't forget to bundle*
 
-e. Creating session controler for login operation.<br>
+e. **(Generating the token)**<br>
+    *Encoding takes place*<br>
+    Creating session controler for login operation.
         `rails g controler api/v1/sessions`<br>
     This will auto generate the file sessions_controller.rb as api/v1/sessions_controller.rb<br>
     *v1 is used for versioning* <br>
     In sessions_controller.rb 
 
-        class Api::V1::SessionsController < ApplicationController
+        class Api::V1::SessionsController < Api::V1::ApiController
         def create
         @user = User.find_by(email: params[:email])
         if @user&.valid_password?(params[:password])
@@ -47,4 +49,43 @@ e. Creating session controler for login operation.<br>
 <br>
 
 i. First find user with correct email address. <br>
-ii. Check the password valid or not? If it is valid generate the token using jwt variable . <br>**jwt** gem plays major role here.Token expires in every one hour. <br> Rails.application.secrets.secret_key_base, generate secret key.'HS256' hash agorithm for encryption.
+ii. Check the password valid or not? If it is valid generate the token using jwt variable . <br>**jwt** gem plays major role here.Token expires in every one hour. <br> Rails.application.secrets.secret_key_base, generate secret key.'HS256' hash agorithm for encryption.<br><br>
+
+f. **Checking the token**<br>
+    *Decoding takes place*<br>
+   Create a controller named api which will authenticated user in every request.
+   `rails g controller api/v1/api`
+   This will auto generate api_controller in api/v1 folder. We have used v1 for versioning. i.e It's v1 api.<br>
+
+    # Creating authentication by using generated token
+    `class Api::V1::ApiController < ActionController::API 
+    before_action :user_token_authentication
+
+        private 
+
+        def current_user 
+            header_token = request.headers[:HTTP_AUTHORIZATION]
+            if header_token 
+                token = header_token.split(' ').last 
+                begin
+                    decoded = JWT.decode token, Rails.application.secret_key_base,true,{algorithm: 'HS256'}
+                        user = User.find(decoded.first["user_id"])
+                        user
+                    
+                rescue JWT::ExpiredSignature
+                    render json: {error: 'Token has been expired'}
+                end
+                else
+                    nil 
+                end
+            end
+
+        def user_token_authentication 
+            unless current_user 
+                render json: {error: 'Invalid token found'}
+            end
+        end
+    end`
+
+
+g. 
