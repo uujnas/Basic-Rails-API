@@ -103,7 +103,7 @@ g. Now we to check data after current user login.
             end
 
         end`
-    iv. let's create some seeds file.
+iv. let's create some seeds file.
         in seeds.rb
         `   user1 = User.create(email: 'abc@gmail.com', password: 'password')
         user2 = User.create(email: 'xyz@gmail.com', password: 'password')
@@ -112,7 +112,7 @@ g. Now we to check data after current user login.
         hotel1.each do |hotel|
             Hotel.create(name: hotel,user_id: user1.id)
         end`
-    v. routes.rb
+v. routes.rb
         `Rails.application.routes.draw do
              devise_for :users
             namespace :api do
