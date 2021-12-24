@@ -88,4 +88,40 @@ f. **Checking the token**<br>
     end`
 
 
-g. 
+g. Now we to check data after current user login.
+  we are creating model hotels and checking list of hotels created through current user
+
+  i. `rails g model Hotel name:string`
+  ii. `rails g controller hotels`
+
+  iii. in hotels_controller.rb
+        `class Api::V1::HotelsController < Api::V1::ApiController
+
+            def index 
+                @hotels = current_user.hotels.all 
+                render json: @hotels
+            end
+
+        end`
+    iv. let's create some seeds file.
+        in seeds.rb
+        `   user1 = User.create(email: 'abc@gmail.com', password: 'password')
+        user2 = User.create(email: 'xyz@gmail.com', password: 'password')
+
+        hotel1 = ["sunshine","sunrise"]
+        hotel1.each do |hotel|
+            Hotel.create(name: hotel,user_id: user1.id)
+        end`
+    v. routes.rb
+    `Rails.application.routes.draw do
+  devise_for :users
+    namespace :api do
+        namespace :v1 do
+        defaults format: :json do
+            post :sign_in, to: 'sessions#create'
+            resources :posts
+            resources :hotels
+        end
+        end   
+    end
+    end`
