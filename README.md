@@ -113,15 +113,15 @@ iv. let's create some seeds file.
             Hotel.create(name: hotel,user_id: user1.id)
         end`
 v. routes.rb
-        `Rails.application.routes.draw do
-             devise_for :users
-            namespace :api do
-                namespace :v1 do
-                defaults format: :json do
-                    post :sign_in, to: 'sessions#create'
-                    resources :posts
-                    resources :hotels
-                end
-                end   
-            end
+        `Rails.application.routes.draw do<br>
+             devise_for :users<br>
+            namespace :api do<br>
+                namespace :v1 do<br>
+                defaults format: :json do<br>
+                    post :sign_in, to: 'sessions#create'<br>
+                    resources :posts<br>
+                    resources :hotels<br>
+                end<br>
+                end   <br>
+            end<br>
         end`
